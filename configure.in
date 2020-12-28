@@ -1,0 +1,59 @@
+dnl configure.in file for knocker
+dnl Edit by Gabriele Giorgetti <g.gabriele79@genie.it>
+
+dnl to be processed with autoconf 
+
+AC_INIT(src/knocker_core.h)
+AM_INIT_AUTOMAKE(knocker, 0.7.1)
+AM_CONFIG_HEADER(config.h)
+
+AC_PROG_CC
+AM_PROG_CC_STDC
+AC_PROG_RANLIB
+AC_PROG_INSTALL 
+#AC_CANONICAL_HOST 
+
+dnl Check for standard C headers
+AC_HEADER_STDC
+
+dnl Check for extra required headers
+AC_CHECK_HEADERS(       \
+	string.h	\
+        errno.h         \
+	signal.h	\
+        netdb.h         \
+        netinet/in.h    \
+	arpa/inet.h	\
+        sys/socket.h    \
+	sys/types.h	\
+	sys/wait.h	\
+	sys/time.h	\
+        unistd.h        \
+	fcntl.h		\
+	sys/ioctl.h	\
+	linux/kd.h
+)
+
+
+dnl Use -Wall -ansi -pedantic if we have gcc.
+if test "x$GCC" = "xyes" ; then
+  # -ansi -pedantic removed to test nanosleep and other non ansi functions
+  CFLAGS="$CFLAGS -Wall"
+fi
+
+
+dnl Check for library functions
+AC_CHECK_FUNCS(gettimeofday pause usleep nanosleep)
+
+
+AC_SUBST(LIBS)
+AC_OUTPUT([
+Makefile
+knuckles/Makefile
+knuckles/src/Makefile
+src/Makefile
+doc/Makefile
+])
+
+
+

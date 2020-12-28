@@ -1,0 +1,77 @@
+-- $Id: NEWS file for knocker version 0.7.1 released on 24 May 2002
+-------------------------------------------------------------------------------
+
+  Most important changes in new releases and NEWS are in this file.
+  A detailed list of changes can be found in the ChangeLog file.
+
+knocker-0.7.1 (24 May 2002):
+  - Fixes a problem in the 0.7.0 version that was causing knocker not to build
+    on non-Linux OS (FreeBSD, OpenBSD, HP-UX, and so on). 
+  
+knocker-0.7.0 (19 May 2002):
+  - A new option to display the program output in a "no-fency" mode was added,
+    and also the possibility to configure knocker with the also new --configure
+    option was added.  
+  - The colored output code has been improved and it is not causing the 
+    background color to change anymore if knocker is executed in a X11 terminal. 
+    The text is now correctly displayed on transparent background terminals too.
+  - Two new options were added, these are --last-scan, to perform again the 
+    last port scan, and --last-host, which puts the last scanned host as target.
+  
+knocker-0.6.6 (9 March 2002):
+  - Fixed a serious bug that was preventing knocker to scan a number of ports
+    greater than 1023.
+  - Fixed another bug that was causing knocker to segfault before exiting if a
+    hostname couldn't be resolved.
+
+knocker-0.6.5 (8 March 2002):
+  - knocker is now displaying service names correctly on Win32 platforms.
+  - Added Win32 Winsock code to make knocker work and build natively on Win32
+    platforms.
+  - Code added to work with a contributed knocker Windows frontend.
+  - Console/terminal colors are now restored to default under Win32 platforms.
+  - Elapsed time is now in milliseconds rather than seconds.
+  - Fixed a bug that caused knocker to segfault if a host was not specified
+    after the --host option.
+
+knocker-0.6.0 (17 February 2002):
+  - Changed the knocker's output style & colors.
+  - Big portions of code rewritten from scratch.
+  - TCP connect port scan code has been improved, the port scan should be 
+    faster now.
+  - Elapsed time since the port scan started is now shown in the results.
+
+knocker-0.5.2 (13 February 2002):
+  - Fixed an important bug that prevented knocker version 0.5.1
+    to perform the port scan, if started in the default mode.
+
+knocker-0.5.1 (11 February 2002):
+  - Added an option to perform a portscan on a single port.
+  - Threads code removed. Knocker is no longer using threads.
+  - Two important bugs fixed. (see ChangeLog for detailed infos).
+
+knocker-0.5.0 (06 January 2002):
+  - Added an option to run the program in background and log results to a file. 
+  - Options added to log port scan results to a file.
+  - Added an options to disable the use threads.
+
+knocker-0.4.0 (27 July 2001):
+  - Added colored output !
+  - Now knocker is able to print its output using colors.
+  - A option to disable colors ha been added: "--no-colors"
+
+knocker-0.3.0 (20 July 2001):
+  - Now knocker uses threads (linux pthreads) in the portscan loop.
+  - The port scan process can now be cancelled by pressing the "c" key.
+
+knocker-0.2.0 (16 July 2001):
+  - Now knocker attempts to resolve an host IP address before the port 
+    scan is started. It aborts the scan if the host IP can't be resolved.
+  - Added a function in knocker_core.c to resolve hosts IP addresses.
+
+knocker-0.1.0 (8 July 2001):
+  - Initial release.
+  
+
+  -- Gabriele Giorgetti
+	<g.gabriele79@genie.it>

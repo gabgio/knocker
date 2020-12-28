@@ -1,0 +1,94 @@
+.\" knocker man page
+.\" Process this file with: groff -man -Tascii
+.\" man page originally written by  Gabriele Giorgetti <g.gabriele79@genie.it>
+.TH KNOCKER 1 "MAY 24, 2002"
+.SH NAME
+knocker \- An easy to use network security port scanner
+.SH SYNOPSIS
+.B \fBknocker\fR --host <host>
+[\fIOPTION\fR]
+.SH DESCRIPTION
+.B knocker 
+is a simple and easy to use TCP security port scanner written in C using pthreads
+which is able to analyze hosts and all of the different services started on
+them.
+.SH OPTIONS
+.TP
+\fB\-H\fr, \fB\-\-host\fR
+host name or numeric Internet address to scan
+.TP
+\fB\-P\fr, \fB\-\-port\fR
+port number to scan (single port scan only)
+.TP
+\fB\-SP\fr, \fB\-\-start-port\fR
+port number to begin the scan from 
+.TP
+\fB\-EP\fr, \fB\-\-end-port\fR
+port number to end the scan at
+.TP
+\fB\-\-last-host\fR
+uses the last scanned host as target
+.TP
+\fB\-\-last-scan\fR
+performs again the last port scan
+.TP
+\fB\-q\fr, \fB\-\-quiet\fR
+disable console output and logs to file.
+.TP
+\fB\-lf\fr, \fB\-\-logfile <logfile>\fR
+log the results to a specified file.
+.TP
+\fB\-nf\fr, \fB\-\-no-fency\fR
+disable fency output
+.TP
+\fB\-nc\fr, \fB\-\-no-colors\fR
+disable colored output
+.TP
+\fB\-\-configure\fR
+let the user configure knocker
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+display this help and exit
+.TP
+\fB\-v\fR, \fB\-\-version\fR
+output version information and exit
+.SH EXAMPLES
+.LP
+To run this program the standard way type:
+.LP
+knocker --host 192.168.0.1
+.LP
+If you want to specify a port range to scan:
+.LP
+knocker --host thehost  --start-port 1 --end-port 2600
+.LP
+or
+.LP
+knocker -H thehost  -SP 1 -EP 2600
+.LP
+To scan a single port:
+.LP
+knocker -H thehost --port 21
+.LP
+To run this program not using colors (if your terminal does not support colors):
+.LP
+knocker --host 192.168.0.1 --no-colors
+.LP
+To run this program run in background and have the results written in a log file:
+.LP
+knocker --host 192.168.0.1 --quiet &
+.LP
+.LP
+.SH AVAILABILTY   
+The latest version of this program can be found at
+http://knocker.sourceforge.net
+.SH BUGS
+See the BUGS file in the knocker source package for a list of known bugs.
+Report bugs to <g.gabriele79@genie.it>
+.SH AUTHOR
+knocker is written by Gabriele Giorgetti <g.gabriele79@genie.it>
+.SH COPYRIGHT
+Copyright \(co 2001,2002 Gabriele Giorgetti
+.br
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

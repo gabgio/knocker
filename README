@@ -1,0 +1,87 @@
+-- $Id: README file for knocker version 0.7.1 - released on 24 May 2002
+-------------------------------------------------------------------------------
+
+                  t h e  k n o c k e r  p r o j e c t
+                    http://knocker.sourceforge.net
+
+
+ Knocker is a simple and easy to use TCP security port scanner written in C
+ using which is able to analyze hosts and all of the different services started
+ on them.
+
+ This is the Linux console version of knocker, other versions of knocker
+ can be found at http://knocker.sourceforge.net
+
+ knocker is released under the GNU General Public License (GPL).
+
+ If you have comments or suggestions, you are welcome to mail me, and
+ please report any bugs: Gabriele Giorgetti <g.gabriele79@genie.it>
+
+ -- Gabriele Giorgetti
+     <g.gabriele79@genie.it>
+
+
+     ______________________________
+ --=| QUICK START GUIDE TO KNOCKER |=-------------------------------
+     ------------------------------
+
+   -[ How to build and install knocker ]-
+      --------------------------------
+
+   1. Unpack the package: tar -zxvf knocker-X.X.X.tar.gz
+   2. cd knocker-X.X.X
+   3. type: ./configure
+   4. make
+   5. (Become root if you want to install knocker system wide) type:
+      make install
+
+   
+   -[ You want to start to pollute hosts logfile scanning'em but you 
+      don't have a clue ? :) ]- 
+      --------------------------------------------------------------
+
+   1. If you have installed knocker with make install you should be
+      able to execute it just by typing: knocker
+      otherwise cd into the src directory under the unpacked source
+      tree and type: ./knocker 
+      or better: knocker --help
+
+   2. Now to perform a simple port scan to a host (let's use your
+      host as target...) type: knocker --host localhost
+   
+   3. Let's say you have to perform a long scan and you want the
+      program to run in background so you can continue your work... 
+      just type: 
+     
+knocker --host thehost --start-port 1 --end-port 4000 --quiet &
+
+  or in a shorter form:
+
+knocker -H thehost -SP 1 -EP 4000 -q &
+
+      you won't see any output this way... just do: 
+      cat ./knocker_scan.log 
+      to see the scan results.
+
+ Or if you want to log to a particular file:
+      
+knocker -H thehost -l logfile.txt
+
+
+If you want to scan only one port:
+
+knocker -H thehost --port 21
+
+
+ Hope that's enought....
+
+  ChEeRs.......
+
+  Gabriele Giorgetti,
+   <g.gabriele79@genie.it>
+   
+
+      
+
+
+

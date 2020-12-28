@@ -1,0 +1,34 @@
+
+                  t h e  k n o c k e r  p r o j e c t
+                    http://knocker.sourceforge.net
+
+
+        HOW TO BUILD KNOCKER FROM SOURCE CODE ON WIN32 PLATFORMS 
+        ________________________________________________________ 
+
+ 
+   Knocker has been tested and succesfully compiled with the following
+   compilers for Window9x/NT/2000:
+
+    - MinGW available at http://www.mingw.org
+    - Cygwin available at http://www.cygnus.com
+    - DevC++4 IDE/Compiler available at http://www.bloodshed.net
+
+   
+
+     [ Building knocker source using the DevC++ 4 IDE ]
+       
+   
+...ZzzzZZzzzzZzzZz... 
+
+argh... ehm... 
+
+Oh Crap !
+
+4:54am I'd better stop with that and go straight to bed. 
+
+<g.gabriele79@genie.it>
+
+PS: If you really need help or informations on how to build
+    knocker under Win32 please contact me.
+    

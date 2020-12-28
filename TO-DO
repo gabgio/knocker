@@ -1,0 +1,35 @@
+-- $Id: TO-DO file for knocker version 0.7.1 - released on 24 May 2002
+-------------------------------------------------------------------------------
+
+  Wish list for new future knocker versions:
+
+  - Implement Stealth Scan
+
+  - Improve the tcp connect scan by making it non blocking and scanning 
+    in parallel mode.
+  
+  - Optimize the knocker Win32 Winsock code to be faster than the slow crap 
+    it is now.
+ 
+  - Improve the --port option to accept a list of ports, like :
+    --port 22-100-1024-2025
+ 
+  - Add an option to scan a list of hosts from a file.
+
+  - Add an interactive mode
+
+  - Banner grabbing.
+
+  - Add a configuration file to deny/allow the use of knocker by normal users
+    and also set color preferences.
+
+  - Other cool things not listed yet...
+ 
+
+  -- Gabriele Giorgetti
+	<g.gabriele79@genie.it>
+
+
+
+
+

@@ -1,0 +1,209 @@
+-- $Id: ChangeLog file for knocker version 0.7.1 - released on 24 May 2002
+-------------------------------------------------------------------------------
+
+24 May 2002
+ - Modified knocker_led.c and knocker_led.h to let knocker build on non-linux
+   OS as well. (if linux/kd.h include is found NO_LED will be defined).
+ 
+19 May 2002
+ - A --configure option was added. If knocker is executed with this option it 
+   will ask a few questions so the user can configure it to its need.
+   It is currently possible to choose if or not to use colors, and actually 
+   choose what color to use for a particular output. These settings are stored
+   int the ~/.knocker/knocker.conf file and can be manually changed by the 
+   user.
+   
+ - Fixed the wrong results output in the logfile. The total number of scanned
+   ports was reported as the total of the found open ports. 
+   
+18 May 2002
+ - Unit knocker_conf was added. The code in this module will handle all the 
+   stuffs relative to the kncoker's configuration file. This file (knocker.conf)
+   is automatically created everytime knocker is executed and it can't find its
+   .conf in the user ~/.knocker subdirectory.
+ 
+13 May 2002
+  - --no-fency (-nf for short) option added. This switch tells knocker to show
+    the output in a "polite" way. All the lines and stuffs shown in the default
+	mode, will not be displayed using this option.
+  
+  - Function knocker_term_set_color modified no to alter the console background
+    color. This makes knocker to work properly under X11 terminals. It doesn't
+	screw up colors anymore. (Works with transparent background terminals too).
+	
+25 April 2002
+  - Unit knocker_led added. The code in this unit will handle the keyboard 
+    leds. The idea is to get the leds blinking while portscanning ...
+	The code is there and it works, but it is not active yet. 
+
+7 April 2002
+  - --last-host option added. This gets the last host name that was scanned.
+
+28 March 2002
+  - Added the --last-scan option. This option tells knocker to perform again
+    the last port scan.
+
+  - The unit knocker_user was added. In this module goes all the code that has
+    to do with user relative functions and the knocker user dir.(ex ~/.knocker)
+
+26 March 2002
+  - Changed the --quiet-mode option in --quiet and the corrispondent short
+    option -qm in -q
+
+9 March 2002
+  - Fixed a serious bug that was preventing knocker to scan a number of ports
+    greater than 1023, all ports scanned after 1023 ports already scanned were
+    reported as CLOSED ! (Basically I was not closing the socket in the
+    knocker_core_portscan_tcp_connnect (...) function, so that after 1023 open
+    sockets the system was unable to open more of them).
+
+  - Fixed another bug that was causing knocker to segfault before exiting if a
+    hostname couldn't be resolved.
+
+    Thanks to Emmanuel Seyman for having reported these bugs.
+
+8 March 2002
+  - Changed the --enable-logfile option in --logfile. This option now requires
+    a file name to be specified. Ex: knocker -H thehost --logfile log.txt
+
+  - Added code to manage the list of services (generated from the /etc/services
+    file) in the unit knocker_services to get the correct service name under
+    Win32 platfroms. The getservbyport function in the Winsock lib seems not to
+    work correctly.
+
+  - Added the --win32-frontend option and the relative code to work with the
+    knocker win32 frontend.
+
+1 March 2002
+  - Added Win32 Winsock code to work natively on Windows platforms.
+    Knocker can now be builded natively on Win32 platforms. 
+  
+  - Added code to handle colored output under Win32 platforms in the unit
+    knocker_term. (using conio.h).
+
+  - Added a function (knocker_term_reset) to *Fix* the bug that caused knocker
+    not to reset to the console default colors at exit.
+
+  - Added a function (knocker_term_clear) to clear the screen when knocker is
+    started.
+
+  - Added a DevC++4 project file to build knocker under Win32s platforms using
+    the IDE/Compiler available at www.bloodshed.net 
+    Information on how to build knocker with this IDE can be found in the file
+    README.Win32
+  
+  - knocker.ico file added in the source distribution.
+
+23 February 2002:
+  - Fixed the segmentation fault that was caused by starting knocker without
+    the --host or -H option. Now the program exits properly and prints an
+    error message to inform the user. 
+
+  - Unit knocker_timer added. This module handles timing stuffs.
+
+  - The elapsed time is now counted in milliseconds rather than in seconds.
+
+  - If a wrong option is given as a knocker command line argument, the error
+    message now prints its name. 
+    Ex: knocker --hast localhost  
+    knocker: invalid argument given: '--hast'    
+
+17 February 2002:
+  - Knocker's output style & colors changed. I like it, but you might not, if 
+    that's the case, please, let me know. 
+
+  - Elapsed time since the begin of the port scan is now shown in the results.
+
+  - Module knocker_output added. All the boring fprintf(...) stuffs are now in 
+    this unit. This makes the main knocker unit a bit cleaner. 
+
+  - Code to output debug messages was added.
+
+15 February 2002:
+  - Big portions of code rewritten from scratch.
+
+  - The TCP connect port scan code has been improved. The scan should be 
+    faster now. (In the old code the host name was resolved for each port 
+    to be scanned!) Damn it.    
+
+  - knocker_core totally redesigned (and rewritten) to be more flexible 
+    and versatile. Plans are to make it available as a library/DLL .
+ 
+13 February 2002:
+  - Fixed a bug in the version 0.5.1 that made impossible to scan a host
+    starting knocker in the default mode Ex: knocker --host thehost
+    This caused knocker to quit without performing the port scan. 
+  
+  - Added header file definitions to prevent multiple file inclusion. 
+
+09 February 2002:
+  - An option to perform a portscan on a single port was added.
+    The option is --port or -P
+
+  - threads code removed (since it was quite buggie)
+    Threads support will be redesigned and reimplemented in the future.
+
+  - Fixed the total scanned ports result counting bug: knocker was not
+    displaying the correct number of the scanned ports.
+    Ex: for a scan from port 1 to port 1000 it was displaying 998 as
+    total resoult insted of 1000. That's now fixed.
+    Thanks to Cristian Ionescu-Idbohrn <cristian.ionescu-idbohrn@axis.com>
+    for reporting that.
+
+  - Fixed the bug that caused knocker to segfault when the log file couldn't
+    be open. The program now quits gracefully telling the user what's going on.
+
+  - Compilation is now done with the following flags -Wall -ansi -pedantic
+
+  - Module terminal.c renamed to knocker_term.c
+
+06 January 2002:
+  - Added the following options:
+      1. --quiet-mode
+         With this option the program can be started in background so that
+         no output to the console is generated and the scan's results are
+         written to a log file. (knocker_scan.log)
+         Ex: knocker --host 192.168.0.1 --quiet-mode &
+    
+      2. --enable-logfile
+         This option logs the scan results to a file (knocker_scan.log)
+         Console output is not disabled by this option.
+ 
+      3. --no-threads
+         If you experience problems running knocker with threads just
+         pass this option.
+         Ex: knocker --host 192.168.0.1 --no-threads
+
+   - Added modules knocker_log.c, knocker_log.h to support the new 
+     file logging functions.
+
+27 July 2001:
+  - Added colored output !
+  - Code to print colored output done.
+  - Added a "--no-colors" option to disabled colored output
+  - Man page updated with new the new option about colors.
+
+26 July 2001:
+  - Begun to add the code to print colored output. 
+
+20 July 2001: 
+  - Now knocker uses threads (linux pthreads) in the portscan loop.
+  - The port scan process can now be cancelled by pressing the "c" key.
+  - The number of total ports scanned is now correctly shown even if
+    the scan is cancelled.
+  - configure.in modified to use threads.
+  - Three functions added to support the use of threads.
+
+16 July 2001:
+  - Now knocker attempts to resolve an host IP address before the port
+    scan is started. It aborts the scan if the host IP can't be resolved.
+
+15 July 2001:
+  - Added a function in knocker_core.c to resolve hosts IP addresses.
+
+08 July 2001:
+  - Initial release.
+  
+
+  -- Gabriele Giorgetti
+	<g.gabriele79@genie.it>
