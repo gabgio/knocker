@@ -1,11 +1,11 @@
 # Makefile.am file for knocker
-# Edited by Gabriele Giorgetti <g.gabriele79@genie.it>
+# Edited by Gabriele Giorgetti <g.giorgetti@gmail.com>
 
 # This file is processed by automake
 
 
 ## Any directories that are built and installed should go here.
-SUBDIRS = knuckles src doc
+SUBDIRS = src doc
 
 ## Any directories to be a part of the distribution should be listed
 ## here, as well as have a Makefile generated at the end of configure.in
@@ -25,4 +25,5 @@ EXTRA_DIST = \
 	indent.sh	\
 	ChangeLog	\
 	knocker.ico     \
+	knocker-legacy.code-workspace \
 	DevCPP4_Project.zip

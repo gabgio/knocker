@@ -1,9 +1,9 @@
-/* knocker version 0.7.1
- * Release date: 24 May 2002
+/* knocker version 0.8.0
+ * Release date: 28 December 2020
  *
- * Project homepage: http://knocker.sourceforge.net
+ * Project homepage: https://knocker.sourceforge.io
  *
- * Copyright 2001,2002 Gabriele Giorgetti <g.gabriele79@genie.it>
+ * Copyright 2001,2020 Gabriele Giorgetti <g.giorgetti@gmail.com>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -267,6 +267,26 @@ void knocker_term_color_intfprintf (FILE * fd, const int i, int color, int attri
 
   return;
 }
+
+/*
+   ============================================================================
+   ============================================================================
+*/
+void knocker_term_intfprintf (FILE * fd, const int i)
+{
+  if (knocker_args.quiet == FALSE)
+    {
+#ifdef __WIN32__
+      cprintf ("%d", i);
+#else
+      fprintf (fd, "%d", i);
+#endif
+    }
+
+  return;
+}
+
+
 
 
 /*

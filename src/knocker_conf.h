@@ -1,9 +1,9 @@
-/* knocker version 0.7.1
- * Release date: 24 May 2002
+/* knocker version 0.8.0
+ * Release date: 28 December 2020
  *
- * Project homepage: http://knocker.sourceforge.net
+ * Project homepage: https://knocker.sourceforge.io
  *
- * Copyright 2001,2002 Gabriele Giorgetti <g.gabriele79@genie.it>
+ * Copyright 2001,2020 Gabriele Giorgetti <g.giorgetti@gmail.com>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -46,11 +46,11 @@
 /* The actual values variable */
 /* these values are read from the conf file */
 /* by the knocker_conf_parse function */
-int KNOCKER_USER_COLOR;
-int KNOCKER_COLOR_1;
-int KNOCKER_COLOR_2;
-int KNOCKER_COLOR_1_ATTR;
-int KNOCKER_COLOR_2_ATTR;
+extern int KNOCKER_USER_COLOR;
+extern int KNOCKER_COLOR_1;
+extern int KNOCKER_COLOR_2;
+extern int KNOCKER_COLOR_1_ATTR;
+extern int KNOCKER_COLOR_2_ATTR;
 
 void knocker_conf_configure ( void );
 int knocker_conf_parse ( void );

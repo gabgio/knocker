@@ -1,10 +1,10 @@
 dnl configure.in file for knocker
-dnl Edit by Gabriele Giorgetti <g.gabriele79@genie.it>
+dnl Edit by Gabriele Giorgetti <g.giorgetti@gmail.com>
 
 dnl to be processed with autoconf 
 
 AC_INIT(src/knocker_core.h)
-AM_INIT_AUTOMAKE(knocker, 0.7.1)
+AM_INIT_AUTOMAKE(knocker, 0.8.0)
 AM_CONFIG_HEADER(config.h)
 
 AC_PROG_CC
@@ -49,8 +49,6 @@ AC_CHECK_FUNCS(gettimeofday pause usleep nanosleep)
 AC_SUBST(LIBS)
 AC_OUTPUT([
 Makefile
-knuckles/Makefile
-knuckles/src/Makefile
 src/Makefile
 doc/Makefile
 ])

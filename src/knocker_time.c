@@ -1,9 +1,9 @@
-/* knocker version 0.7.1
- * Release date: 24 May 2002
+/* knocker version 0.8.0
+ * Release date: 28 December 2020
  *
- * Project homepage: http://knocker.sourceforge.net
+ * Project homepage: https://knocker.sourceforge.io
  *
- * Copyright 2001,2002 Gabriele Giorgetti <g.gabriele79@genie.it>
+ * Copyright 2001,2020 Gabriele Giorgetti <g.giorgetti@gmail.com>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -71,6 +71,9 @@ double knocker_time_get_ticks (void)
 
 void knocker_time_delay (unsigned long ms)
 {
+    double before;
+    double now;
+
 #ifdef __WIN32__
 
 #else
@@ -98,8 +101,6 @@ void knocker_time_delay (unsigned long ms)
 
 
 #else
-  double before, now;
-
   before = knocker_time_get_ticks ();
   now = before;
 

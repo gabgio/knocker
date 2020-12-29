@@ -1,9 +1,9 @@
-/* knocker version 0.7.1
- * Release date: 24 May 2002
+/* knocker version 0.8.0
+ * Release date: 28 December 2020
  *
- * Project homepage: http://knocker.sourceforge.net
+ * Project homepage: https://knocker.sourceforge.io
  *
- * Copyright 2001,2002 Gabriele Giorgetti <g.gabriele79@genie.it>
+ * Copyright 2001,2020 Gabriele Giorgetti <g.giorgetti@gmail.com>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -33,12 +33,12 @@
 
 const char knocker_header[12][90] = {
   "+-----------------------------------------------------------------------------+\n",
-  "|--=|", " k n o c k e r ", "--", " t h e ", "--", " n e t ", "--",
-  " p o r t s c a n n e r ", "|=-=[ ", VERSION, " ]=-|\n"
+  "|--=|", " k n o c k e r ", "--", " - - - ", "--", " - - - ", "--",
+  " - - - - - - - - - - - - ", "|=-=[ ", VERSION, " ]=-|\n"
 };
 
 
-char *knocker_time;
+
 
 /*
    ============================================================================
@@ -46,6 +46,7 @@ char *knocker_time;
 */
 int knocker_output_open (void)
 {
+  char *knocker_time;
   time_t timenow;
 
   if (!knocker_args.fency)
@@ -118,11 +119,12 @@ void knocker_output_host_info (const char *hostname_str, const char *hostip_str)
     }
   else
     {
-      knocker_term_color_fprintf (knocker_output_fp, "Host: ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, hostname_str, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, " resolved: ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, hostip_str, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+      knocker_term_fprintf (knocker_output_fp, "Host: ");
+      knocker_term_fprintf (knocker_output_fp, hostname_str);
+      knocker_term_fprintf (knocker_output_fp, " resolved: ");
+      knocker_term_fprintf (knocker_output_fp, hostip_str);
+      knocker_term_fprintf (knocker_output_fp, "\n");
+
     }
   fflush (knocker_output_fp);
 }
@@ -144,9 +146,9 @@ void knocker_output_resolve_error (char *hostname_str)
     }
   else
     {
-      knocker_term_color_fprintf (knocker_output_fp, "Failed to resolve hostname/IP: ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, hostname_str, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+      knocker_term_fprintf (knocker_output_fp, "Failed to resolve hostname/IP: ");
+      knocker_term_fprintf (knocker_output_fp, hostname_str);
+      knocker_term_fprintf (knocker_output_fp, "\n");
     }
   fflush (knocker_output_fp);
 }
@@ -198,14 +200,10 @@ void knocker_output_open_port (int port, char *service_str)
     }
   else
     {
-      knocker_term_color_intfprintf (knocker_output_fp, port, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, "/", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, "tcp", KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, ", ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, service_str, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, ", ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, "open", KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+      knocker_term_intfprintf (knocker_output_fp, port);
+      knocker_term_fprintf (knocker_output_fp, "/tcp, ");
+      knocker_term_fprintf (knocker_output_fp, service_str);
+      knocker_term_fprintf (knocker_output_fp, ", open\n");
     }
   fflush (knocker_output_fp);
 }
@@ -240,14 +238,13 @@ void knocker_output_results (char *hostname_str, char *hostname_ip, int tot_ps, 
     }
   else
     {
-      knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, "Found ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_intfprintf (knocker_output_fp, open_ps, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, " open ports in a total of ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_intfprintf (knocker_output_fp, tot_ps, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, " ports scanned (", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, secs, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, " secs).\n\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+      knocker_term_fprintf (knocker_output_fp, "\nFound ");
+      knocker_term_intfprintf (knocker_output_fp, open_ps);
+      knocker_term_fprintf (knocker_output_fp, " open ports in a total of ");
+      knocker_term_intfprintf (knocker_output_fp, tot_ps);
+      knocker_term_fprintf (knocker_output_fp, " ports scanned (");
+      knocker_term_fprintf (knocker_output_fp, secs);
+      knocker_term_fprintf (knocker_output_fp, " secs).\n\n");
     }
 
   fflush (knocker_output_fp);

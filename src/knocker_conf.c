@@ -1,9 +1,9 @@
-/* knocker version 0.7.1
- * Release date: 24 May 2002
+/* knocker version 0.8.0
+ * Release date: 28 December 2020
  *
- * Project homepage: http://knocker.sourceforge.net
+ * Project homepage: https://knocker.sourceforge.io
  *
- * Copyright 2001,2002 Gabriele Giorgetti <g.gabriele79@genie.it>
+ * Copyright 2001,2020 Gabriele Giorgetti <g.giorgetti@gmail.com>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -234,7 +234,7 @@ static int _getoptval (char *line, char *opt, char *value)
 
   if (!_isblank (*tmpp) || *tmpp != KNOCKER_OPTION_TOKEN)
     {
-      free (tmpp);
+      /* free(tmpp); this cause knocker to segfault */
       return 0;
     }
 
@@ -366,6 +366,9 @@ void knocker_conf_set_default (void)
 */
 int knocker_conf_parse (void)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_conf_parse() called.\n");
+#endif
   FILE *fp;
 
   char *conf_file = NULL;
@@ -378,11 +381,19 @@ int knocker_conf_parse (void)
   strcat (conf_file, "/");
   strcat (conf_file, KNOCKER_CONFIG_FILE);
 
+#ifdef DEBUG
+  fprintf (stderr, "debug: conf_file is %s.\n",conf_file);
+#endif
+
   if ((fp = fopen (conf_file, "r")) == NULL)
     {
       /* fprintf (stderr, "couldn't read config file %s\n", conf_file); */
       free (conf_file);
       knocker_conf_set_default ();      /* run with the default configuration */
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_conf_parse() returns -1.\n");
+#endif
+
       return -1;
     }
 
@@ -431,9 +442,17 @@ int knocker_conf_parse (void)
 
 
   fclose (fp);
-  free (conf_file);
-  free (linebuff);
-  free (opt_value);
+
+  if (conf_file != NULL)
+    free (conf_file);
+   if (linebuff != NULL)
+    free (linebuff);
+  if (opt_value != NULL)
+    free (opt_value);
+
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_conf_parse() returns 0.\n");
+#endif
 
   return 0;
 }

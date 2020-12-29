@@ -1,9 +1,9 @@
-/* knocker version 0.7.1
- * Release date: 24 May 2002
+/* knocker version 0.8.0
+ * Release date: 28 December 2020
  *
- * Project homepage: http://knocker.sourceforge.net
+ * Project homepage: https://knocker.sourceforge.io
  *
- * Copyright 2001,2002 Gabriele Giorgetti <g.gabriele79@genie.it>
+ * Copyright 2001,2020 Gabriele Giorgetti <g.giorgetti@gmail.com>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -37,12 +37,17 @@
 #include "knocker_conf.h"
 #include "knocker_core.h"
 #include "knocker_time.h"
-#include "knocker_led.h"
 #include "knocker_services.h"
 
 #include <time.h>
 
-#include "knuckles.h"
+int KNOCKER_USER_COLOR;
+int KNOCKER_COLOR_1;
+int KNOCKER_COLOR_2;
+int KNOCKER_COLOR_1_ATTR;
+int KNOCKER_COLOR_2_ATTR;
+
+knocker_user_t knocker_user;
 
 int total_open_ports = 0;
 int total_scanned_ports = 0;
@@ -120,8 +125,6 @@ static void quit (void)
       system ("PAUSE");
     }
 #endif
-
-  /* knocker_led_reset(); Not ready for leds Yet */
 
   knocker_term_reset ();
 
@@ -311,12 +314,6 @@ static void portscan (void)
 
       for (port = knocker_args.sport; port <= knocker_args.eport; port++)
         {
-          /* Not ready yet for these stuffs
-             knocker_led_sequence();
-             usleep(10000); / usleep is deprecated, use nanosleep instead 
-             knocker_time_delay(10);
-           */
-
           if (knocker_core_portscan_tcp_connnect (&pscan_data, port) == PORT_OPEN)
             {
               total_open_ports++;

@@ -1,9 +1,9 @@
-/* knocker version 0.7.1
- * Release date: 24 May 2002
+/* knocker version 0.8.0
+ * Release date: 28 December 2020
  *
- * Project homepage: http://knocker.sourceforge.net
+ * Project homepage: https://knocker.sourceforge.io
  *
- * Copyright 2001,2002 Gabriele Giorgetti <g.gabriele79@genie.it>
+ * Copyright 2001,2020 Gabriele Giorgetti <g.giorgetti@gmail.com>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -69,19 +69,19 @@
 /* and run knocker in quiet mode to se debug output only */
 
 #ifndef _KNOCKER_CORE_VERSION_
-#define _KNOCKER_CORE_VERSION_      "0.7.1"
+#define _KNOCKER_CORE_VERSION_      "0.8.0"
 #endif
 #ifndef _KNOCKER_CORE_RELEASE_DATE_
-#define _KNOCKER_CORE_RELEASE_DATE_ "24 May 2002"
+#define _KNOCKER_CORE_RELEASE_DATE_ "28 December 2020"
 #endif
 #ifndef _KNOCKER_CORE_HOMEPAGE_
-#define _KNOCKER_CORE_HOMEPAGE_     "http://knocker.sourceforge.net"
+#define _KNOCKER_CORE_HOMEPAGE_     "https://knocker.sourceforge.io"
 #endif
 #ifndef _KNOCKER_CORE_AUTHOR_
 #define _KNOCKER_CORE_AUTHOR_       "Gabriele Giorgetti"
 #endif
 #ifndef _KNOCKER_CORE_AUTHOR_EMAIL_
-#define _KNOCKER_CORE_AUTHOR_EMAIL_ "<g.gabriele79@genie.it>"
+#define _KNOCKER_CORE_AUTHOR_EMAIL_ "<g.giorgetti@gmail.com>"
 #endif
 
 #define KNOCKER_DEFAULT_PORT_RANGE 1024  /* by default scan from 1 to 1024 */
@@ -164,9 +164,9 @@ static const char knocker_core_author[]       = _KNOCKER_CORE_AUTHOR_;
 static const char knocker_core_author_email[] = _KNOCKER_CORE_AUTHOR_EMAIL_;
 
 /* allocated and deallocated within knocker_core_init, knocker_core_quit */
-char *knocker_core_last_hostip;   /* string of the last resolved host ip address */
-char *knocker_core_last_hostname; /* string of the last used host name */
-char *knocker_core_last_service;  /* string of the last service */
+extern char *knocker_core_last_hostip;   /* string of the last resolved host ip address */
+extern char *knocker_core_last_hostname; /* string of the last used host name */
+extern char *knocker_core_last_service;  /* string of the last service */
 
 
 int   knocker_core_init ( void );

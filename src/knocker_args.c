@@ -1,9 +1,9 @@
-/* knocker version 0.7.1
- * Release date: 24 May 2002
+/* knocker version 0.8.0
+ * Release date: 28 December 2020
  *
- * Project homepage: http://knocker.sourceforge.net
+ * Project homepage: https://knocker.sourceforge.io
  *
- * Copyright 2001,2002 Gabriele Giorgetti <g.gabriele79@genie.it>
+ * Copyright 2001,2020 Gabriele Giorgetti <g.giorgetti@gmail.com>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,6 +28,7 @@
 #include "knocker_conf.h"
 #include "knocker_log.h"
 
+knocker_args_t knocker_args; /* command line arguments structure */
 
 /* used internally by knocker_args_parse */
 static void knocker_args_validate (knocker_args_t * args, int argc, char *argv[]);
@@ -102,6 +103,10 @@ static void print_help_info (void)
 */
 int knocker_args_init (knocker_args_t * args, int logfile, int quiet, int colors)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_args_init() called.\n");
+#endif
+
   args->hname = NULL;
   args->hip = NULL;
   args->lfname = NULL;
@@ -123,6 +128,10 @@ int knocker_args_init (knocker_args_t * args, int logfile, int quiet, int colors
 */
 void knocker_args_free (knocker_args_t * args)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_args_free() called.\n");
+#endif
+/*
   if (args->hname != NULL)
     free (args->hname);
 
@@ -131,6 +140,8 @@ void knocker_args_free (knocker_args_t * args)
 
   if (args->hip != NULL)
     free (args->hip);
+    */
+  /* deliberatelly not freeing data to avoid crash dumps ! */
 }
 
 
@@ -151,6 +162,9 @@ int  knocker_args_argument (knocker_args_t *args, unsigned short argument)
 */
 int knocker_args_parse (knocker_args_t * args, int argc, char *argv[])
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_args_parse() called.\n");
+#endif
   int i;
 
   if (argv[1] == NULL)
@@ -342,6 +356,10 @@ static void knocker_args_validate (knocker_args_t * args, int argc, char *argv[]
   int we_havegot_ep = 0;
   int i;
 
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_args_validate() called.\n");
+#endif
+
   for (i = 1; i <= argc - 1; i++)
     {
       if ((!strcmp (argv[i], HOST_SHORT_OPT)) || (!strcmp (argv[i], HOST_LONG_OPT)) || (!strcmp (argv[i], LAST_HOST_LONG_OPT)))
@@ -361,7 +379,7 @@ static void knocker_args_validate (knocker_args_t * args, int argc, char *argv[]
       fprintf (stderr, "%s: error, no host to scan given\n", PACKAGE);
       fprintf (stderr, "You must provide a host to scan with 'the %s <host>' or '%s <host>' option.\n", HOST_LONG_OPT, HOST_SHORT_OPT);
       fprintf (stderr, "Try `%s %s' for more information.\n", PACKAGE, HELP_LONG_OPT);
-      knocker_args_free (args);
+      //knocker_args_free (args);
       exit (EXIT_FAILURE);
     }
 
@@ -371,7 +389,7 @@ static void knocker_args_validate (knocker_args_t * args, int argc, char *argv[]
       fprintf (stderr, "You must provide both a port number where to start the scan from and end\n");
       fprintf (stderr, "the scan to: %s <PORT> %s <PORT>\n", START_PORT_LONG_OPT, END_PORT_LONG_OPT);
       fprintf (stderr, "Try `%s %s' for more information.\n", PACKAGE, HELP_LONG_OPT);
-      knocker_args_free (args);
+      //knocker_args_free (args);
       exit (EXIT_FAILURE);
 
     }
@@ -381,9 +399,13 @@ static void knocker_args_validate (knocker_args_t * args, int argc, char *argv[]
       fprintf (stderr, "You must provide both a port number where to start the scan from and end\n");
       fprintf (stderr, "the scan to: %s <PORT> %s <PORT>\n", START_PORT_LONG_OPT, END_PORT_LONG_OPT);
       fprintf (stderr, "Try `%s %s' for more information.\n", PACKAGE, HELP_LONG_OPT);
-      knocker_args_free (args);
+      //knocker_args_free (args);
       exit (EXIT_FAILURE);
 
     }
+
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_args_validate() return.\n");
+#endif
 
 }

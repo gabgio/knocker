@@ -1,9 +1,9 @@
-/* knocker version 0.7.1
- * Release date: 24 May 2002
+/* knocker version 0.8.0
+ * Release date: 28 December 2020
  *
- * Project homepage: http://knocker.sourceforge.net
+ * Project homepage: https://knocker.sourceforge.io
  *
- * Copyright 2001,2002 Gabriele Giorgetti <g.gabriele79@genie.it>
+ * Copyright 2001,2020 Gabriele Giorgetti <g.giorgetti@gmail.com>
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,8 +25,11 @@
 #  include <config.h>
 #endif
 
+#include <errno.h>
+
 #include "knocker_core.h"
 #include "knocker_services.h"
+
 
 static int knocker_core_init_port_data (knocker_core_port_t * port);
 static void knocker_core_free_port_data (knocker_core_port_t * port);
@@ -49,6 +52,72 @@ static int knocker_core_set_host_ip_string (knocker_core_host_t * hinfo, const c
 static void knocker_core_free_host_name_string (knocker_core_host_t * hinfo);
 static void knocker_core_free_host_ip_string (knocker_core_host_t * hinfo);
 
+static inline int _connect_nonblocking(int sock, struct sockaddr_in sa, int timeout);
+
+/* allocated and deallocated within knocker_core_init, knocker_core_quit */
+char *knocker_core_last_hostip;   /* string of the last resolved host ip address */
+char *knocker_core_last_hostname; /* string of the last used host name */
+char *knocker_core_last_service;  /* string of the last service */
+
+
+inline int _connect_nonblocking(int sock, struct sockaddr_in sa, int timeout)
+{
+    int flags = 0, error = 0, ret = 0;
+    fd_set  rset, wset;
+    socklen_t   len = sizeof(error);
+    struct timeval  ts;
+
+    ts.tv_sec = timeout;
+    ts.tv_usec = 0;
+
+    //clear out descriptor sets for select
+    //add socket to the descriptor sets
+    FD_ZERO(&rset);
+    FD_SET(sock, &rset);
+    wset = rset;    //structure assignment ok
+
+    //set socket nonblocking flag
+    if( (flags = fcntl(sock, F_GETFL, 0)) < 0)
+        return -1;
+
+    if(fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0)
+        return -1;
+
+    //initiate non-blocking connect
+    if( (ret = connect(sock, (struct sockaddr *)&sa, 16)) < 0 )
+        if (errno != EINPROGRESS)
+            return -1;
+
+    if(ret == 0)    //then connect succeeded right away
+        goto done;
+
+    //we are waiting for connect to complete now
+    if( (ret = select(sock + 1, &rset, &wset, NULL, (timeout) ? &ts : NULL)) < 0)
+        return -1;
+    if(ret == 0){   //we had a timeout
+        errno = ETIMEDOUT;
+        return -1;
+    }
+
+    //we had a positivite return so a descriptor is ready
+    if (FD_ISSET(sock, &rset) || FD_ISSET(sock, &wset)){
+        if(getsockopt(sock, SOL_SOCKET, SO_ERROR, &error, &len) < 0)
+            return -1;
+    }else
+        return -1;
+
+    if(error){  //check if we had a socket error
+        errno = error;
+        return -1;
+    }
+
+done:
+    //put socket back in blocking mode
+    if(fcntl(sock, F_SETFL, flags) < 0)
+        return -1;
+
+    return 0;
+}
 
 
 /*
@@ -94,8 +163,10 @@ void knocker_core_quit (void)
 #ifdef DEBUG
   fprintf (stderr, "debug: knocker_core_last_hostip is: %s, memory must be deallocated... ", knocker_core_last_hostip);
 #endif
-  if (knocker_core_last_hostip != NULL)
-    free (knocker_core_last_hostip);
+/*  FIXME 
+    if (knocker_core_last_hostip != NULL)
+    free (knocker_core_last_hostip); 
+*/
 #ifdef DEBUG
   fprintf (stderr, "done.\n");
 #endif
@@ -103,8 +174,10 @@ void knocker_core_quit (void)
 #ifdef DEBUG
   fprintf (stderr, "debug: knocker_core_last_hostname is: %s, memory must be deallocated... ", knocker_core_last_hostname);
 #endif
-  if (knocker_core_last_hostname != NULL)
-    free (knocker_core_last_hostname);
+/*  FIXME
+    if (knocker_core_last_hostname != NULL)
+    free (knocker_core_last_hostname); 
+*/
 #ifdef DEBUG
   fprintf (stderr, "done.\n");
 #endif
@@ -112,8 +185,10 @@ void knocker_core_quit (void)
 #ifdef DEBUG
   fprintf (stderr, "debug: knocker_core_last_service is: %s, memory must be deallocated... ", knocker_core_last_service);
 #endif
-  if (knocker_core_last_service != NULL)
-    free (knocker_core_last_service);
+/*  FIXME
+    if (knocker_core_last_service != NULL)
+    free (knocker_core_last_service); 
+*/
 #ifdef DEBUG
   fprintf (stderr, "done.\n");
 #endif
@@ -180,7 +255,7 @@ void knocker_core_free_portscan_data (knocker_core_portscan_data_t * data)
 #ifdef DEBUG
   fprintf (stderr, "debug: deallocating scoket data with a call to knocker_core_free_socket_data()... ");
 #endif
-  knocker_core_free_socket_data (&data->socket);
+  /* FIXME knocker_core_free_socket_data (&data->socket); */
 #ifdef DEBUG
   fprintf (stderr, "done.\n");
 #endif
@@ -188,7 +263,7 @@ void knocker_core_free_portscan_data (knocker_core_portscan_data_t * data)
 #ifdef DEBUG
   fprintf (stderr, "debug: deallocating port data with a call to knocker_core_free_port_data()... ");
 #endif
-  knocker_core_free_port_data (data->port);
+  /* FIXME knocker_core_free_port_data (data->port); */
 #ifdef DEBUG
   fprintf (stderr, "done.\n");
 #endif
@@ -196,7 +271,7 @@ void knocker_core_free_portscan_data (knocker_core_portscan_data_t * data)
 #ifdef DEBUG
   fprintf (stderr, "debug: deallocating host data with a call to knocker_core_free_host_data()... ");
 #endif
-  knocker_core_free_host_data (&data->host);
+  /* FIXME knocker_core_free_host_data (&data->host); */
 #ifdef DEBUG
   fprintf (stderr, "done.\n");
 #endif
@@ -357,7 +432,7 @@ int knocker_core_validate_port_number (unsigned int port)
    ============================================================================
    ============================================================================
 */
-int knocker_core_portscan_tcp_connnect (knocker_core_portscan_data_t * data, unsigned int port)
+int knocker_core_portscan_tcp_connnect_block (knocker_core_portscan_data_t * data, unsigned int port)
 {
 #ifdef DEBUG
   fprintf (stderr, "debug: function knocker_core_portscan_tcp_connnect (...) called\n");
@@ -401,8 +476,60 @@ int knocker_core_portscan_tcp_connnect (knocker_core_portscan_data_t * data, uns
    ============================================================================
    ============================================================================
 */
+int knocker_core_portscan_tcp_connnect (knocker_core_portscan_data_t * data, unsigned int port)
+{
+  int timeout=1; /* connect timeout */
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_core_portscan_tcp_connnect (...) called\n");
+  fprintf (stderr, "debug: connecting to port: %d\n", port);
+#endif
+
+  if (knocker_core_open_socket (&data->socket, PROTO_TCP) == KNOCKER_SOCKET_ERROR)
+    {
+#ifdef DEBUG
+      fprintf (stderr, "debug: socket error, couldn't connect.\n");
+#endif
+      return -1;
+    }
+
+  data->host.sockaddr_in.sin_family = PF_INET;
+  data->host.sockaddr_in.sin_port = htons (port);
+  data->host.sockaddr_in.sin_addr = *((struct in_addr *) data->host.info->h_addr);
+  memset (&(data->host.sockaddr_in.sin_zero), 0, 8);
+
+
+  if (_connect_nonblocking (data->socket.fd, data->host.sockaddr_in, timeout) != -1)
+    /* here the port is open */
+    {
+      knocker_core_close_socket (&data->socket);
+#ifdef DEBUG
+      fprintf (stderr, "debug: connected to port: %d, port is open\n", port);
+#endif
+      return PORT_OPEN;
+    }
+#ifdef DEBUG
+  fprintf (stderr, "debug: port: %d is closed\n", port);
+#endif
+
+  /* the socket must be closed even if the remote port is closed */
+  knocker_core_close_socket (&data->socket);
+
+  return (PORT_CLOSED);
+}
+
+
+
+
+/*
+   ============================================================================
+   ============================================================================
+*/
 char *knocker_core_resolve_host (knocker_core_portscan_data_t * data, const char *hostname)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_resolve_host (...) called.\n");
+#endif
+
   if (knocker_core_gethostbyname (&data->host, hostname) == -1)
     return NULL;
   else
@@ -416,6 +543,10 @@ char *knocker_core_resolve_host (knocker_core_portscan_data_t * data, const char
 */
 static int knocker_core_init_host_data (knocker_core_host_t * host)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_core_init_host_data (...) called.\n");
+#endif
+
   knocker_core_set_host_name_string (host, NULL);
   knocker_core_set_host_ip_string (host, NULL);
 
@@ -430,8 +561,13 @@ static int knocker_core_init_host_data (knocker_core_host_t * host)
 */
 static void knocker_core_free_host_data (knocker_core_host_t * host)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_core_free_host_data (...) called.\n");
+#endif
+
+/* FIXME deliberatelly not freeing here to avoid crashdump
   knocker_core_free_host_name_string (host);
-  knocker_core_free_host_ip_string (host);
+  knocker_core_free_host_ip_string (host); */
 }
 
 
@@ -461,6 +597,11 @@ static int knocker_core_init_port_data (knocker_core_port_t * port)
 */
 static void knocker_core_free_port_data (knocker_core_port_t * port)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_core_free_port_data (...) called.\n");
+#endif
+
+
   int i;
 
   for (i = 0; i < KNOCKER_MAX_PORT_NUMBER; i++)
@@ -471,7 +612,8 @@ static void knocker_core_free_port_data (knocker_core_port_t * port)
 
       if (port[i].service != NULL)
         {
-          free (port[i].service);
+	  /* FIXME deliberatelly not freeing here to avoid crash dump */	
+          /* free (port[i].service); */
         }
     }
 }
@@ -483,6 +625,11 @@ static void knocker_core_free_port_data (knocker_core_port_t * port)
 */
 static int knocker_core_init_socket_data (knocker_core_socket_t * sock)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_core_init_socket_data (...) called.\n");
+#endif
+
+
   if (sock->active == TRUE)
     knocker_core_close_socket (sock);
 
@@ -499,6 +646,10 @@ static int knocker_core_init_socket_data (knocker_core_socket_t * sock)
 */
 static void knocker_core_free_socket_data (knocker_core_socket_t * sock)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_core_free_socket_data (...) called.\n");
+#endif
+
   knocker_core_init_socket_data (sock);
 }
 
@@ -581,8 +732,18 @@ static void knocker_core_close_socket (knocker_core_socket_t * sock)
 */
 static int knocker_core_gethostbyname (knocker_core_host_t * hinfo, const char *hostname)
 {
-  if ((hinfo->info = gethostbyname (hostname)) == NULL)
-    return -1;
+  struct hostent *htemp;
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_core_gethostbyname (...) called.\n");
+#endif
+
+  htemp = gethostbyname (hostname);
+
+  if (htemp == NULL)
+    return -1; 
+	
+  
+  hinfo->info = gethostbyname (hostname);
 
   knocker_core_set_host_name_string (hinfo, hostname);
   knocker_core_set_host_ip_string (hinfo, inet_ntoa (*(struct in_addr *) *hinfo->info->h_addr_list));
@@ -731,8 +892,10 @@ static void knocker_core_free_host_name_string (knocker_core_host_t * hinfo)
 {
   if (hinfo->name != NULL)
     {
+      /* FIXME DELIBERATELLY NOT FREEING HERE TO AVOID CRASHDUMMPS    
       free (hinfo->name);
-      knocker_core_set_host_name_string (hinfo, NULL);
+      knocker_core_set_host_name_string (hinfo, NULL); 
+      */
     }
 }
 
@@ -744,8 +907,10 @@ static void knocker_core_free_host_ip_string (knocker_core_host_t * hinfo)
 {
   if (hinfo->ip != NULL)
     {
+      /* FIXME DELIBERATELLY NOT FREEING HERE TO AVOID CHRASHDUMPS 
       free (hinfo->ip);
       knocker_core_set_host_ip_string (hinfo, NULL);
+      */
     }
 
 }

@@ -1,12 +1,9 @@
 # Makefile.am file for knocker
-# Edited by Gabriele Giorgetti <g.gabriele79@genie.it>
+# Edited by Gabriele Giorgetti <g.giorgetti@gmail.com>
 
 # This file is processed by automake
 
 bin_PROGRAMS    = knocker
-
-INCLUDE= -I../knuckles/src/
-LDADD= ../knuckles/src/libknuckles.a
 
 knocker_SOURCES = 			\
 		knocker_main.c		\
@@ -27,9 +24,7 @@ knocker_SOURCES = 			\
 		knocker_time.c		\
 		knocker_time.h		\
 		knocker_services.c	\
-		knocker_services.h	\
-		knocker_led.c		\
-		knocker_led.h
+		knocker_services.h	
 
 
 
