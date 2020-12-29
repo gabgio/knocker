@@ -1,22 +1,17 @@
--- $Id: BUGS file for knocker version 0.7.1 released on 24 May 2002
+-- $Id: BUGS file for knocker version 0.8.0 released on 28 December 2020
 -------------------------------------------------------------------------------
 
  Please report any bugs, or comments to: 
-  Gabriele Giorgetti <g.gabriele79@genie.it>
+  Gabriele Giorgetti <g.giorgetti@gmail.com>
 
- Don't forget to visit http://knocker.sourceforge.net for more informations
+ Don't forget to visit https://knocker.sourceforge.io for more informations
  on the knocker project.
-
 
  List of known bugs: 
 
- Well, the same old story: if you find one, please, report it :-)
 
  You can report bugs by visiting:
-  http://knocker.sourceforge.net/development.php
+  https://knocker.sourceforge.io/development.php
  and following the BUGS link on the page.
  
- Or just by sending an e-mail to me.
-
-  -- Gabriele Giorgetti 
-      <g.gabriele79@genie.it>
+ Or just by sending an e-mail.

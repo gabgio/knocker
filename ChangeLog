@@ -1,5 +1,20 @@
--- $Id: ChangeLog file for knocker version 0.7.1 - released on 24 May 2002
+-- $Id: ChangeLog file for knocker version 0.8.0 - released on 28 December 2020
 -------------------------------------------------------------------------------
+
+28 December 2020
+ - This is a maintenance version, more than 20 years after... This is going
+   to be the last version of knocker as it is. There will be only minor fixes.
+   A complete rewrite in Python is in progress.
+
+ - Added non blocking tcp connect scan! Non reachable port have a max timout
+   of 1 second.
+
+ - Fixed a huge bug where once the knocker conf file was written after the 
+   first run, it was making the program crash at every launch.
+
+ - Removed --lasthost and --last-scan options, pretty useless.
+
+ - Removed the keyboard led code, useless.
 
 24 May 2002
  - Modified knocker_led.c and knocker_led.h to let knocker build on non-linux

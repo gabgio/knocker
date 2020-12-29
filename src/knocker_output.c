@@ -33,76 +33,69 @@
 
 const char knocker_header[12][90] = {
   "+-----------------------------------------------------------------------------+\n",
-  "|--=|", " k n o c k e r ", "--", " - - - ", "--", " - - - ", "--",
+  "|--", " k n o c k e r ", "--", " - - - ", "--", " - - - ", "--",
   " - - - - - - - - - - - - ", "|=-=[ ", VERSION, " ]=-|\n"
 };
 
 
-
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 int knocker_output_open (void)
 {
   char *knocker_time;
   time_t timenow;
 
-  if (!knocker_args.fency)
-    return 0;
-
-
-
   time (&timenow);
   knocker_time = ctime (&timenow);
 
-  knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+  if (knocker_args.fency)
+  {
+    knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
 
-  /* print the colored header */
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[0], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[1], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[2], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[3], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[4], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[5], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[6], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[7], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[8], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[9], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[10], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[11], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-  knocker_term_color_fprintf (knocker_output_fp, knocker_header[0], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+    /* print the colored header */
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[0], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[1], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[2], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[3], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[4], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[5], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[6], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[7], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[8], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[9], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[10], KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[11], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+    knocker_term_color_fprintf (knocker_output_fp, knocker_header[0], KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
 
+    if (knocker_user.name != NULL)
+      {
+        knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+        knocker_term_color_fprintf (knocker_output_fp, " - ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+        knocker_term_color_fprintf (knocker_output_fp, "started by user ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+        knocker_term_color_fprintf (knocker_output_fp, knocker_user.name, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
+        knocker_term_color_fprintf (knocker_output_fp, " on ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+        knocker_term_color_fprintf (knocker_output_fp, knocker_time, KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+      }
+    else
+      {
+        knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+        knocker_term_color_fprintf (knocker_output_fp, " - ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+        knocker_term_color_fprintf (knocker_output_fp, "started on ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+        knocker_term_color_fprintf (knocker_output_fp, knocker_time, KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
+      }
 
-  if (knocker_user.name != NULL)
-    {
-      knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, " - ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, "started by user ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, knocker_user.name, KNOCKER_COLOR_2, KNOCKER_COLOR_2_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, " on ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, knocker_time, KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-    }
+  }
   else
-    {
-      knocker_term_color_fprintf (knocker_output_fp, "\n", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, " - ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, "started on ", KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-      knocker_term_color_fprintf (knocker_output_fp, knocker_time, KNOCKER_COLOR_1, KNOCKER_COLOR_1_ATTR);
-    }
-
+  {
+        knocker_term_fprintf (knocker_output_fp, PACKAGE);
+        knocker_term_fprintf (knocker_output_fp, " ");
+        knocker_term_fprintf (knocker_output_fp, "started on ");
+        knocker_term_fprintf (knocker_output_fp, knocker_time);
+  }
+  
   fflush (knocker_output_fp);
 
   return 0;
 }
 
-
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_output_host_info (const char *hostname_str, const char *hostip_str)
 {
   if (knocker_args.fency)
@@ -121,19 +114,14 @@ void knocker_output_host_info (const char *hostname_str, const char *hostip_str)
     {
       knocker_term_fprintf (knocker_output_fp, "Host: ");
       knocker_term_fprintf (knocker_output_fp, hostname_str);
-      knocker_term_fprintf (knocker_output_fp, " resolved: ");
+      knocker_term_fprintf (knocker_output_fp, " (");
       knocker_term_fprintf (knocker_output_fp, hostip_str);
-      knocker_term_fprintf (knocker_output_fp, "\n");
-
+      knocker_term_fprintf (knocker_output_fp, ")\n");
     }
   fflush (knocker_output_fp);
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_output_resolve_error (char *hostname_str)
 {
   if (knocker_args.fency)
@@ -153,10 +141,7 @@ void knocker_output_resolve_error (char *hostname_str)
   fflush (knocker_output_fp);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_output_ports_info (int sp, int ep)
 {
   if (!knocker_args.fency)
@@ -179,10 +164,6 @@ void knocker_output_ports_info (int sp, int ep)
   fflush (knocker_output_fp);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_output_open_port (int port, char *service_str)
 {
   if (knocker_args.fency)
@@ -208,10 +189,7 @@ void knocker_output_open_port (int port, char *service_str)
   fflush (knocker_output_fp);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_output_results (char *hostname_str, char *hostname_ip, int tot_ps,  int open_ps, char *secs)
 {
   if (knocker_args.fency)

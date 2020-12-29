@@ -1,8 +1,12 @@
--- $Id: NEWS file for knocker version 0.7.1 released on 24 May 2002
+-- $Id: NEWS file for knocker version 0.8.0 released on 28 December 2020
 -------------------------------------------------------------------------------
 
   Most important changes in new releases and NEWS are in this file.
   A detailed list of changes can be found in the ChangeLog file.
+
+knocker-0.8.0 (28 December 2020):
+  - Fixes a huge bug that was preventing knocker to run after the first initial run.
+  - Added non-blocking tcp connect with a timout of 1 second. 
 
 knocker-0.7.1 (24 May 2002):
   - Fixes a problem in the 0.7.0 version that was causing knocker not to build
@@ -72,6 +76,3 @@ knocker-0.2.0 (16 July 2001):
 knocker-0.1.0 (8 July 2001):
   - Initial release.
   
-
-  -- Gabriele Giorgetti
-	<g.gabriele79@genie.it>

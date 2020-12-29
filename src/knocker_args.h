@@ -30,9 +30,6 @@
 #define HOST_SHORT_OPT "-H"
 #define HOST_LONG_OPT  "--host"
 
-  /* host to scan, got with lasthost  */
-#define LAST_HOST_LONG_OPT  "--last-host"
-
   /* single port number */
 #define SINGLE_PORT_SHORT_OPT "-P"
 #define SINGLE_PORT_LONG_OPT  "--port"
@@ -60,9 +57,6 @@
   /* option to disable colored out put */
 #define NO_COLORS_SHORT_OPT "-nc"
 #define NO_COLORS_LONG_OPT  "--no-colors"
-
- /* option --last-scan, reperforms the last port scan */
-#define LAST_SCAN_LONG_OPT "--last-scan"
 
  /* option --configure, let the usere configure knocker */
 #define CONFIGURE_LONG_OPT "--configure"

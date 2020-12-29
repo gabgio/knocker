@@ -67,7 +67,7 @@ inline int _connect_nonblocking(int sock, struct sockaddr_in sa, int timeout)
     socklen_t   len = sizeof(error);
     struct timeval  ts;
 
-    ts.tv_sec = timeout;
+    ts.tv_sec = 1;
     ts.tv_usec = 0;
 
     //clear out descriptor sets for select
@@ -119,11 +119,6 @@ done:
     return 0;
 }
 
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 int knocker_core_init (void)
 {
 #ifdef __WIN32_WINSOCK2__
@@ -150,10 +145,6 @@ int knocker_core_init (void)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_core_quit (void)
 {
 #ifdef DEBUG
@@ -200,10 +191,6 @@ void knocker_core_quit (void)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 int knocker_core_init_portscan_data (knocker_core_portscan_data_t * data)
 {
 #ifdef DEBUG
@@ -242,10 +229,7 @@ int knocker_core_init_portscan_data (knocker_core_portscan_data_t * data)
   return 0;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_core_free_portscan_data (knocker_core_portscan_data_t * data)
 {
 #ifdef DEBUG
@@ -278,10 +262,6 @@ void knocker_core_free_portscan_data (knocker_core_portscan_data_t * data)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 char *knocker_core_get_hostname (knocker_core_portscan_data_t * data)
 {
 #ifdef DEBUG
@@ -310,10 +290,6 @@ char *knocker_core_get_hostname (knocker_core_portscan_data_t * data)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 char *knocker_core_get_hostip (knocker_core_portscan_data_t * data)
 {
 #ifdef DEBUG
@@ -339,10 +315,6 @@ char *knocker_core_get_hostip (knocker_core_portscan_data_t * data)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 char *knocker_core_get_service (unsigned int port, int protocol)
 {
   int slenght;                  /* string lenght */
@@ -411,10 +383,6 @@ char *knocker_core_get_service (unsigned int port, int protocol)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 int knocker_core_validate_port_number (unsigned int port)
 {
   if (port < 1)
@@ -427,11 +395,6 @@ int knocker_core_validate_port_number (unsigned int port)
 }
 
 
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 int knocker_core_portscan_tcp_connnect_block (knocker_core_portscan_data_t * data, unsigned int port)
 {
 #ifdef DEBUG
@@ -472,10 +435,6 @@ int knocker_core_portscan_tcp_connnect_block (knocker_core_portscan_data_t * dat
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 int knocker_core_portscan_tcp_connnect (knocker_core_portscan_data_t * data, unsigned int port)
 {
   int timeout=1; /* connect timeout */
@@ -518,12 +477,6 @@ int knocker_core_portscan_tcp_connnect (knocker_core_portscan_data_t * data, uns
 }
 
 
-
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 char *knocker_core_resolve_host (knocker_core_portscan_data_t * data, const char *hostname)
 {
 #ifdef DEBUG
@@ -537,10 +490,6 @@ char *knocker_core_resolve_host (knocker_core_portscan_data_t * data, const char
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 static int knocker_core_init_host_data (knocker_core_host_t * host)
 {
 #ifdef DEBUG
@@ -554,11 +503,6 @@ static int knocker_core_init_host_data (knocker_core_host_t * host)
 }
 
 
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 static void knocker_core_free_host_data (knocker_core_host_t * host)
 {
 #ifdef DEBUG
@@ -571,11 +515,6 @@ static void knocker_core_free_host_data (knocker_core_host_t * host)
 }
 
 
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 static int knocker_core_init_port_data (knocker_core_port_t * port)
 {
   int i;
@@ -591,10 +530,7 @@ static int knocker_core_init_port_data (knocker_core_port_t * port)
   return 0;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static void knocker_core_free_port_data (knocker_core_port_t * port)
 {
 #ifdef DEBUG
@@ -619,10 +555,6 @@ static void knocker_core_free_port_data (knocker_core_port_t * port)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 static int knocker_core_init_socket_data (knocker_core_socket_t * sock)
 {
 #ifdef DEBUG
@@ -640,10 +572,6 @@ static int knocker_core_init_socket_data (knocker_core_socket_t * sock)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 static void knocker_core_free_socket_data (knocker_core_socket_t * sock)
 {
 #ifdef DEBUG
@@ -653,10 +581,7 @@ static void knocker_core_free_socket_data (knocker_core_socket_t * sock)
   knocker_core_init_socket_data (sock);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static int knocker_core_open_socket (knocker_core_socket_t * sock, int protocol)
 {
 #ifdef DEBUG
@@ -697,10 +622,7 @@ static int knocker_core_open_socket (knocker_core_socket_t * sock, int protocol)
   return 0;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static void knocker_core_close_socket (knocker_core_socket_t * sock)
 {
 #ifdef DEBUG
@@ -726,10 +648,6 @@ static void knocker_core_close_socket (knocker_core_socket_t * sock)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 static int knocker_core_gethostbyname (knocker_core_host_t * hinfo, const char *hostname)
 {
   struct hostent *htemp;
@@ -751,10 +669,7 @@ static int knocker_core_gethostbyname (knocker_core_host_t * hinfo, const char *
   return 0;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static int knocker_core_getservbyport (char *service, unsigned int port, int protocol)
 {
   struct servent *service_st;
@@ -786,12 +701,6 @@ static int knocker_core_getservbyport (char *service, unsigned int port, int pro
 }
 
 
-
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 static int knocker_core_set_host_name_string (knocker_core_host_t * hinfo, const char *hostname)
 {
   if (hostname == NULL)
@@ -827,10 +736,6 @@ static int knocker_core_set_host_name_string (knocker_core_host_t * hinfo, const
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 static int knocker_core_set_host_ip_string (knocker_core_host_t * hinfo, const char *hostip)
 {
   if (hostip == NULL)
@@ -865,29 +770,19 @@ static int knocker_core_set_host_ip_string (knocker_core_host_t * hinfo, const c
   return 0;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static char *knocker_core_get_host_name_string (knocker_core_host_t * hinfo)
 {
   return (hinfo->name);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static char *knocker_core_get_host_ip_string (knocker_core_host_t * hinfo)
 {
   return (hinfo->ip);
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 static void knocker_core_free_host_name_string (knocker_core_host_t * hinfo)
 {
   if (hinfo->name != NULL)
@@ -899,10 +794,7 @@ static void knocker_core_free_host_name_string (knocker_core_host_t * hinfo)
     }
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static void knocker_core_free_host_ip_string (knocker_core_host_t * hinfo)
 {
   if (hinfo->ip != NULL)

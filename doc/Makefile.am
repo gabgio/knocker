@@ -1,5 +1,4 @@
 # Makefile.am file for knocker
-# Edited by Gabriele Giorgetti <g.gabriele79@genie.it>
 
 # This file is processed by automake
 

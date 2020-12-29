@@ -196,30 +196,5 @@ char *knocker_core_get_hostip   (knocker_core_portscan_data_t *data);
 /* return the service name string using getservbyport */
 char *knocker_core_get_service (unsigned int port, int protocol);
 
-/* Functions used internally
----- ------------------------------------------------------------------------------------------
-static int  knocker_core_init_port_data   (knocker_core_port_t *port);
-static void knocker_core_free_port_data   (knocker_core_port_t *port);
-
-static int  knocker_core_init_socket_data   (knocker_core_socket_t *sock);
-static void knocker_core_free_socket_data   (knocker_core_socket_t *sock);
-static int  knocker_core_open_socket   (knocker_core_socket_t *sock, int protocol);
-static void knocker_core_close_socket  (knocker_core_socket_t *sock);
-
-static int  knocker_core_init_host_data   (knocker_core_host_t *host);
-static void knocker_core_free_host_data   (knocker_core_host_t *host);
-
-static int   knocker_core_gethostbyname    (knocker_core_host_t *hinfo, const char *hostname);
-static int   knocker_core_getservbyport    (char *service, unsigned int port, int protocol);
-
-static char *knocker_core_get_host_name_string (knocker_core_host_t *hinfo);
-static char *knocker_core_get_host_ip_string   (knocker_core_host_t *hinfo);
-static int  knocker_core_set_host_name_string  (knocker_core_host_t *hinfo, const char *hostname);
-static int  knocker_core_set_host_ip_string    (knocker_core_host_t *hinfo, const char *hostip);
-static void knocker_core_free_host_name_string (knocker_core_host_t *hinfo);
-static void knocker_core_free_host_ip_string   (knocker_core_host_t *hinfo);
------ ------------------------- ---------------------------------------------------------------
-*/
-
 #endif /* _KNOCKER_CORE_H_ */
 

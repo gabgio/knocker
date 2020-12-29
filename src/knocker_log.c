@@ -29,10 +29,7 @@
 
 FILE *knocker_log_fp;
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 int knocker_log_open (const char *filename)
 {
   char *knocker_time;
@@ -66,10 +63,7 @@ int knocker_log_open (const char *filename)
   return 0;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_log_host_info (char *hostname_str, char *hostip_str)
 {
   /* if logging to file is FALSE */
@@ -83,10 +77,6 @@ void knocker_log_host_info (char *hostname_str, char *hostip_str)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_log_resolve_error (char *hostname_str)
 {
   /* if logging to file is FALSE */
@@ -100,10 +90,7 @@ void knocker_log_resolve_error (char *hostname_str)
   fclose (knocker_log_fp);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_log_ports_info (int sp, int ep)
 {
   /* if logging to file is FALSE */
@@ -118,10 +105,7 @@ void knocker_log_ports_info (int sp, int ep)
   fflush (knocker_log_fp);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_log_open_port (int port, char *service_str)
 {
   /* if logging to file is FALSE */
@@ -132,10 +116,7 @@ void knocker_log_open_port (int port, char *service_str)
   fflush (knocker_log_fp);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_log_results (char *hostname_str, char *hostip_str, int tot_ps, int open_ps, char *secs)
 {
   /* if logging to file is FALSE */
@@ -149,10 +130,7 @@ void knocker_log_results (char *hostname_str, char *hostip_str, int tot_ps, int 
   fflush (knocker_log_fp);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_log_cancelled (void)
 {
   /* if logging to file is FALSE */
@@ -163,10 +141,7 @@ void knocker_log_cancelled (void)
   fflush (knocker_log_fp);
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_log_close (void)
 {
   /* if logging to file is FALSE */

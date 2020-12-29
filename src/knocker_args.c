@@ -36,10 +36,7 @@ static void knocker_args_validate (knocker_args_t * args, int argc, char *argv[]
 static int _have_last_host = 0; /* tells if we've got the host with the --last-host option */
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static void print_version_info (void)
 {
 #ifdef        __WIN32__
@@ -50,10 +47,6 @@ static void print_version_info (void)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 static void print_help_info (void)
 {
 #ifdef        __WIN32__
@@ -69,16 +62,12 @@ static void print_help_info (void)
   fprintf (stdout, "\n");
   fprintf (stdout, "Required options:\n");
   fprintf (stdout, "      %s,  %s              host name or numeric Internet address\n", HOST_SHORT_OPT, HOST_LONG_OPT);
-  fprintf (stdout, "        or\n");
-  fprintf (stdout, "      %s              get the last scanned host name\n", LAST_HOST_LONG_OPT);
   fprintf (stdout, "\n");
-  fprintf (stdout, "Common options (if SP is specified you must also give EP):\n");
+  fprintf (stdout, "Common options:\n");
   fprintf (stdout, "      %s,  %s              single port number (for one port scans only)\n", SINGLE_PORT_SHORT_OPT,
            SINGLE_PORT_LONG_OPT);
   fprintf (stdout, "      %s, %s        port number to begin the scan from\n", START_PORT_SHORT_OPT, START_PORT_LONG_OPT);
   fprintf (stdout, "      %s, %s          port number to end the scan at\n", END_PORT_SHORT_OPT, END_PORT_LONG_OPT);
-  fprintf (stdout, "\n");
-  fprintf (stdout, "      %s              performs again the last port scan\n", LAST_SCAN_LONG_OPT);
   fprintf (stdout, "\n");
   fprintf (stdout, "Extra options:\n");
   fprintf (stdout, "      %s,  %s             quiet mode (no console output, logs to file)\n", QUIET_MODE_SHORT_OPT, QUIET_MODE_LONG_OPT);
@@ -97,10 +86,7 @@ static void print_help_info (void)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 int knocker_args_init (knocker_args_t * args, int logfile, int quiet, int colors)
 {
 #ifdef DEBUG
@@ -122,10 +108,6 @@ int knocker_args_init (knocker_args_t * args, int logfile, int quiet, int colors
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_args_free (knocker_args_t * args)
 {
 #ifdef DEBUG
@@ -146,20 +128,13 @@ void knocker_args_free (knocker_args_t * args)
 
 
 /*
-   ============================================================================
-   ============================================================================
-*/
-/*
 int  knocker_args_argument (knocker_args_t *args, unsigned short argument)
 {
 
 }
 */
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 int knocker_args_parse (knocker_args_t * args, int argc, char *argv[])
 {
 #ifdef DEBUG
@@ -190,18 +165,6 @@ int knocker_args_parse (knocker_args_t * args, int argc, char *argv[])
         {
           knocker_conf_configure ();
           exit (EXIT_SUCCESS);
-        }
-      else if (!strcmp (argv[i], LAST_SCAN_LONG_OPT))
-        {
-          /* attempts to read all arguments from the last performed port scan */
-          if (knocker_user_read_lastscan (&knocker_user, args) < 0)
-            {
-              fprintf (stderr, "%s: couldn't find any last port scan record.\n", PACKAGE);
-              fprintf (stderr, "This could be because you haven't performed a port scan yet.\n");
-              knocker_args_free (args);
-              exit (EXIT_FAILURE);
-            }
-          return (0);           /* we should have all arguments here */
         }
       else if ((!strcmp (argv[i], NO_FENCY_SHORT_OPT)) || (!strcmp (argv[i], NO_FENCY_LONG_OPT)))
         {
@@ -236,18 +199,6 @@ int knocker_args_parse (knocker_args_t * args, int argc, char *argv[])
           args->quiet = TRUE;
           args->colors = FALSE;
           args->logfile = TRUE;
-        }
-      else if (!strcmp (argv[i], LAST_HOST_LONG_OPT))
-        {
-          /* attempts to read the last host argument from the last performed port scan */
-          if (knocker_user_read_lasthost (&knocker_user, args) < 0)
-            {
-              fprintf (stderr, "%s: couldn't find any 'lasthost' record.\n", PACKAGE);
-              fprintf (stderr, "This could be because you haven't performed a port scan yet.\n");
-              knocker_args_free (args);
-              exit (EXIT_FAILURE);
-            }
-          _have_last_host = 1;  /* Got the hostname, set this to 1 so other functions'll know that we have a host */
         }
       else if ((!strcmp (argv[i], HOST_SHORT_OPT)) || (!strcmp (argv[i], HOST_LONG_OPT)))
         {
@@ -345,10 +296,6 @@ int knocker_args_parse (knocker_args_t * args, int argc, char *argv[])
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 static void knocker_args_validate (knocker_args_t * args, int argc, char *argv[])
 {
   int we_havegot_host = 0;
@@ -362,11 +309,9 @@ static void knocker_args_validate (knocker_args_t * args, int argc, char *argv[]
 
   for (i = 1; i <= argc - 1; i++)
     {
-      if ((!strcmp (argv[i], HOST_SHORT_OPT)) || (!strcmp (argv[i], HOST_LONG_OPT)) || (!strcmp (argv[i], LAST_HOST_LONG_OPT)))
+      if ((!strcmp (argv[i], HOST_SHORT_OPT)) || (!strcmp (argv[i], HOST_LONG_OPT)) )
         {
           we_havegot_host = 1;
-
-          _have_last_host = 0;  /* reset the _have_last_host variable */
         }
       if ((!strcmp (argv[i], START_PORT_SHORT_OPT)) || (!strcmp (argv[i], START_PORT_LONG_OPT)))
         we_havegot_sp = 1;

@@ -47,10 +47,6 @@ static int _file_exists (const char *path);
 static int _file_readline (FILE * fp, char *line, int maxlen);
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 int knocker_user_init (knocker_user_t * user)
 {
 #ifdef DEBUG
@@ -94,10 +90,7 @@ int knocker_user_init (knocker_user_t * user)
   return 0;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_user_free (knocker_user_t * user)
 {
 #ifdef DEBUG
@@ -116,181 +109,6 @@ void knocker_user_free (knocker_user_t * user)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
-int knocker_user_write_lastscan (knocker_user_t * user, knocker_args_t * args)
-{
-  char *lscanfile;
-  FILE *fp;
-
-  if (args->hname == NULL)
-    return -1;
-
-  if (args->port == 0)
-    {
-      if ((args->sport == 0) && (args->eport == 0))
-        return -1;
-    }
-
-  lscanfile = malloc (strlen (user->dir) + strlen (KNOCKER_LASTSCAN_FILE) + 2);
-  sprintf (lscanfile, "%s/%s", user->dir, KNOCKER_LASTSCAN_FILE);
-
-  if ((fp = fopen (lscanfile, "w")) == NULL)
-    {
-      /* couldn't create file */
-      free (lscanfile);
-      return -1;
-    }
-
-  free (lscanfile);
-
-  fprintf (fp, "%s%s", args->hname, KNOCKER_TOKEN);
-  fprintf (fp, "%d%s", args->port, KNOCKER_TOKEN);
-  fprintf (fp, "%d%s", args->sport, KNOCKER_TOKEN);
-  fprintf (fp, "%d%s", args->eport, KNOCKER_TOKEN);
-
-  fprintf (fp, "%d%s", args->logfile, KNOCKER_TOKEN);
-
-  if (args->logfile)
-    fprintf (fp, "%s%s", args->lfname, KNOCKER_TOKEN);
-  else
-    fprintf (fp, "null%s", KNOCKER_TOKEN);
-
-  fprintf (fp, "%d%s", args->quiet, KNOCKER_TOKEN);
-  fprintf (fp, "%d%s", args->colors, KNOCKER_TOKEN);
-
-  fprintf (fp, "\n");
-
-  fclose (fp);
-
-  return 0;
-}
-/*
-   ============================================================================
-   ============================================================================
-*/
-int knocker_user_read_lastscan (knocker_user_t * user, knocker_args_t * args)
-{
-  char *lscanfile;
-  char line[255];
-  char *buffer[255];
-  int i = 0;
-
-  FILE *fp;
-
-  lscanfile = malloc (strlen (user->dir) + strlen (KNOCKER_LASTSCAN_FILE) + 2);
-  sprintf (lscanfile, "%s/%s", user->dir, KNOCKER_LASTSCAN_FILE);
-
-  if (_file_exists (lscanfile))
-    {
-    }
-
-  if ((fp = fopen (lscanfile, "r")) == NULL)
-    {
-      /* couldn't open file */
-      free (lscanfile);
-      return -1;
-    }
-
-  free (lscanfile);
-
-  if (_file_readline (fp, line, 255) < 0)
-    {
-      /* something wrong happened */
-      return -1;
-    }
-
-  /* get the argument using strtok on the line */
-  buffer[i++] = strtok (line, KNOCKER_TOKEN);   /* get the first */
-  while ((buffer[i++] = strtok (NULL, KNOCKER_TOKEN))); /* and then the others */
-
-  /* allocate space and set the hostname string arg */
-  args->hname = realloc (args->hname, strlen (buffer[0]) + 1);
-  strcpy (args->hname, buffer[0]);
-
-  args->port = atoi (buffer[1]);
-  args->sport = atoi (buffer[2]);
-  args->eport = atoi (buffer[3]);
-  args->logfile = atoi (buffer[4]);
-
-  if (args->logfile)
-    {
-      /* allocate space and set the logfile string arg */
-      args->lfname = realloc (args->lfname, strlen (buffer[5]) + 1);
-      strcpy (args->lfname, buffer[5]);
-    }
-
-  args->quiet = atoi (buffer[6]);
-  args->colors = atoi (buffer[7]);
-
-/*
-   printf("0, args->hname:   %s\n", buffer[0]);
-   printf("1, args->port:    %s\n", buffer[1]);
-   printf("2, args->sport:   %s\n", buffer[2]);
-   printf("3, args->eport:   %s\n", buffer[3]);
-   printf("4, args->logfile: %s\n", buffer[4]);
-   printf("5, args->lfname:  %s\n", buffer[5]);
-   printf("6, args->quiet:   %s\n", buffer[6]);
-   printf("7, args->colors:  %s\n", buffer[7]);
-*/
-
-  fclose (fp);
-
-  return 0;
-}
-/*
-   ============================================================================
-   ============================================================================
-*/
-int knocker_user_read_lasthost (knocker_user_t * user, knocker_args_t * args)
-{
-  char *lscanfile;
-  char line[255];
-  char *buffer[255];
-  int i = 0;
-
-  FILE *fp;
-
-  lscanfile = malloc (strlen (user->dir) + strlen (KNOCKER_LASTSCAN_FILE) + 2);
-  sprintf (lscanfile, "%s/%s", user->dir, KNOCKER_LASTSCAN_FILE);
-
-  if (_file_exists (lscanfile))
-    {
-    }
-
-  if ((fp = fopen (lscanfile, "r")) == NULL)
-    {
-      /* couldn't open file */
-      free (lscanfile);
-      return -1;
-    }
-
-  free (lscanfile);
-
-  if (_file_readline (fp, line, 255) < 0)
-    {
-      /* something wrong happened */
-      return -1;
-    }
-
-  /* get the argument using strtok on the line */
-  buffer[i++] = strtok (line, KNOCKER_TOKEN);   /* get the first, the host */
-
-  /* allocate space and set the hostname string arg */
-  args->hname = realloc (args->hname, strlen (buffer[0]) + 1);
-  strcpy (args->hname, buffer[0]);
-
-  fclose (fp);
-
-  return 0;
-}
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 int knocker_user_is_root (void)
 {
 #ifdef __WIN32__
@@ -306,10 +124,6 @@ int knocker_user_is_root (void)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 char *knocker_user_get_username (void)
 {
 #ifdef __WIN32__
@@ -328,10 +142,7 @@ char *knocker_user_get_username (void)
 #endif /* __WIN32__ */
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 char *knocker_user_get_userhome (void)
 {
 #ifdef __WIN32__
@@ -340,7 +151,6 @@ char *knocker_user_get_userhome (void)
   return (getenv ("HOME"));
 #endif /* __WIN32__ */
 }
-
 
 
 

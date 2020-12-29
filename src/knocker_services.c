@@ -1002,11 +1002,6 @@ void free_knocker_core_services_db (void)
 }
 
 
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 char *knocker_core_services_db_get_service (unsigned int port, int protocol)
 {
   int slenght;                  /* string lenght */

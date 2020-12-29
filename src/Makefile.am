@@ -1,5 +1,4 @@
 # Makefile.am file for knocker
-# Edited by Gabriele Giorgetti <g.giorgetti@gmail.com>
 
 # This file is processed by automake
 
@@ -20,7 +19,7 @@ knocker_SOURCES = 			\
 		knocker_log.c		\
 		knocker_log.h		\
 		knocker_term.c		\
-		knocker_term.h          \
+		knocker_term.h      \
 		knocker_time.c		\
 		knocker_time.h		\
 		knocker_services.c	\

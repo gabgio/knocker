@@ -1,5 +1,10 @@
--- $Id: TO-DO file for knocker version 0.7.1 - released on 24 May 2002
+-- $Id: TO-DO file for knocker version 0.8.0 - released on 28 December 2020
 -------------------------------------------------------------------------------
+
+  
+   This is the last knocker release as it is. A major rewrite in Python is 
+   in progress
+
 
   Wish list for new future knocker versions:
 
@@ -24,10 +29,6 @@
     and also set color preferences.
 
   - Other cool things not listed yet...
- 
-
-  -- Gabriele Giorgetti
-	<g.gabriele79@genie.it>
 
 
 

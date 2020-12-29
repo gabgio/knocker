@@ -39,9 +39,4 @@ char *knocker_user_get_userhome ( void );
 int  knocker_user_init (knocker_user_t *user);
 void knocker_user_free (knocker_user_t *user);
 
-int knocker_user_read_lastscan  (knocker_user_t *user, knocker_args_t *args);
-int knocker_user_write_lastscan (knocker_user_t *user, knocker_args_t *args);
-
-int knocker_user_read_lasthost (knocker_user_t *user, knocker_args_t *args);
-
 #endif /* _KNOCKER_USER_H_ */

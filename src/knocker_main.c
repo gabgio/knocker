@@ -56,10 +56,6 @@ double elapsed_time;
 
 knocker_core_portscan_data_t pscan_data;
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 static void init (int argc, char *argv[])
 {
   knocker_core_init ();
@@ -74,11 +70,11 @@ static void init (int argc, char *argv[])
 
   knocker_args_init (&knocker_args, FALSE, FALSE, TRUE);
 
-  knocker_args_parse (&knocker_args, argc, argv);
-
   if (knocker_conf_parse () < 0)
     /* write a default conf file for the user if it is not already there. */
     knocker_conf_write_default ();
+
+  knocker_args_parse (&knocker_args, argc, argv);
 
   knocker_core_init_portscan_data (&pscan_data);
 
@@ -103,10 +99,7 @@ static void init (int argc, char *argv[])
     }
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static void quit (void)
 {
   knocker_log_close ();
@@ -131,10 +124,7 @@ static void quit (void)
   knocker_core_quit ();
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 static void resolve (void)
 {
   if (knocker_core_resolve_host (&pscan_data, knocker_args.hname) == NULL)
@@ -154,24 +144,16 @@ static void resolve (void)
 
 
 
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 static void portscan (void)
 {
 
   knocker_term_fflush (stdout);
-
 
   if (knocker_args.port != 0)
     {
 
       knocker_output_ports_info (knocker_args.port, knocker_args.port);
       knocker_log_ports_info (knocker_args.port, knocker_args.port);
-
-      knocker_user_write_lastscan (&knocker_user, &knocker_args);
 
       knocker_time_start_timer ();
 
@@ -203,8 +185,6 @@ static void portscan (void)
       knocker_output_ports_info (knocker_args.sport, knocker_args.eport);
       knocker_log_ports_info (knocker_args.sport, knocker_args.eport);
 
-      knocker_user_write_lastscan (&knocker_user, &knocker_args);
-
       knocker_time_start_timer ();
 
       for (port = knocker_args.sport; port <= knocker_args.eport; port++)
@@ -227,12 +207,10 @@ static void portscan (void)
 
               knocker_output_open_port (port, knocker_core_last_service);
               knocker_log_open_port (port, knocker_core_last_service);
-
             }
         }
 
       elapsed_time = knocker_time_get_ticks ();
-
       total_scanned_ports = port;
       return;
     }
@@ -243,8 +221,6 @@ static void portscan (void)
   if ((knocker_args.sport == knocker_args.eport) && (knocker_args.sport != 0) && (knocker_args.eport != 0))
     {
       int port = knocker_args.sport;
-
-      knocker_user_write_lastscan (&knocker_user, &knocker_args);
 
       knocker_time_start_timer ();
 
@@ -259,7 +235,6 @@ static void portscan (void)
               knocker_core_services_db_get_service (port, PROTO_TCP);
             }
 #endif
-
           knocker_output_open_port (port, knocker_core_last_service);
           knocker_log_open_port (port, knocker_core_last_service);
         }
@@ -273,8 +248,6 @@ static void portscan (void)
   else if (knocker_args.sport > knocker_args.eport)
     {
       int port = 0;             /* avaoid unitialization warning */
-
-      knocker_user_write_lastscan (&knocker_user, &knocker_args);
 
       knocker_time_start_timer ();
 
@@ -296,10 +269,8 @@ static void portscan (void)
               knocker_output_open_port (port, knocker_core_last_service);
               knocker_log_open_port (port, knocker_core_last_service);
             }
-
         }
       elapsed_time = knocker_time_get_ticks ();
-
       total_scanned_ports = knocker_args.sport - port;
       return;
     }
@@ -307,8 +278,6 @@ static void portscan (void)
   else
     {
       int port;
-
-      knocker_user_write_lastscan (&knocker_user, &knocker_args);
 
       knocker_time_start_timer ();
 
@@ -341,12 +310,6 @@ static void portscan (void)
 }
 
 
-
-
-/*
-   ============================================================================
-   ============================================================================
-*/
 static void results (void)
 {
   char timestr[80];
@@ -359,20 +322,12 @@ static void results (void)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 int main (int argc, char *argv[])
 {
   init (argc, argv);
-
   atexit (quit);
-
   resolve ();
-
   portscan ();
-
   results ();
 
   return (EXIT_SUCCESS);

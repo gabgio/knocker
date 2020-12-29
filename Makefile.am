@@ -1,5 +1,4 @@
 # Makefile.am file for knocker
-# Edited by Gabriele Giorgetti <g.giorgetti@gmail.com>
 
 # This file is processed by automake
 
@@ -17,8 +16,8 @@ EXTRA_DIST = \
 	AUTHORS 	\
 	BUGS            \
 	COPYING         \
-        INSTALL         \
-        README		\
+    INSTALL         \
+    README		\
 	README.Win32	\
 	TO-DO    	\
 	autogen.sh	\

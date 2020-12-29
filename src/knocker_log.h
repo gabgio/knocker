@@ -45,4 +45,3 @@ void knocker_log_cancelled (void);
 void knocker_log_close (void);
 
 #endif /* _KNOCKER_LOG_H_ */
-

@@ -1,8 +1,7 @@
--- $Id: README file for knocker version 0.7.1 - released on 24 May 2002
+-- $Id: README file for knocker version 0.8.0 - released on 28 December 2020
 -------------------------------------------------------------------------------
 
-                  t h e  k n o c k e r  p r o j e c t
-                    http://knocker.sourceforge.net
+                    https://knocker.sourceforge.io
 
 
  Knocker is a simple and easy to use TCP security port scanner written in C
@@ -10,16 +9,12 @@
  on them.
 
  This is the Linux console version of knocker, other versions of knocker
- can be found at http://knocker.sourceforge.net
+ can be found at https://knocker.sourceforge.io
 
  knocker is released under the GNU General Public License (GPL).
 
  If you have comments or suggestions, you are welcome to mail me, and
- please report any bugs: Gabriele Giorgetti <g.gabriele79@genie.it>
-
- -- Gabriele Giorgetti
-     <g.gabriele79@genie.it>
-
+ please report any bugs: Gabriele Giorgetti <g.giorgetti@gmail.com>
 
      ______________________________
  --=| QUICK START GUIDE TO KNOCKER |=-------------------------------
@@ -34,10 +29,8 @@
    4. make
    5. (Become root if you want to install knocker system wide) type:
       make install
-
    
-   -[ You want to start to pollute hosts logfile scanning'em but you 
-      don't have a clue ? :) ]- 
+   -[ Quick start ]- 
       --------------------------------------------------------------
 
    1. If you have installed knocker with make install you should be
@@ -67,21 +60,7 @@ knocker -H thehost -SP 1 -EP 4000 -q &
       
 knocker -H thehost -l logfile.txt
 
-
 If you want to scan only one port:
 
 knocker -H thehost --port 21
-
-
- Hope that's enought....
-
-  ChEeRs.......
-
-  Gabriele Giorgetti,
-   <g.gabriele79@genie.it>
-   
-
-      
-
-
 

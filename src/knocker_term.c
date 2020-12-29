@@ -20,6 +20,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif
@@ -32,14 +33,19 @@
 #include "knocker_term.h"
 #include "knocker_args.h"
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_term_clear (void)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_term_clear (...) called\n");
+#endif
+
   if (knocker_args.quiet == FALSE)
     {
+#ifdef DEBUG
+  fprintf (stderr, "debug: quiet mode is enabled\n");
+#endif
+
 #ifdef __WIN32__
       clrscr ();                /* clear the screen using clrscr() from conio.h */
 #else
@@ -48,16 +54,20 @@ void knocker_term_clear (void)
     }
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_term_set_default_color (void)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_term_set_default_color (...) called\n");
+#endif
+
   if (!knocker_args.quiet)
     {
       if (knocker_args.colors == TRUE)
         {
+#ifdef DEBUG
+  fprintf (stderr, "debug: colors enabled\n");
+#endif
+
 #ifdef __WIN32__
           /* in win32 the default fg color is LIGHTGRAY */
           knocker_term_set_color (LIGHTGRAY, COLOR_NONE, ATTRIB_RESET);
@@ -71,12 +81,13 @@ void knocker_term_set_default_color (void)
   return;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_term_reset (void)
 {
+#ifdef DEBUG
+  fprintf (stderr, "debug: function knocker_term_reset (...) called\n");
+#endif
+
   knocker_term_set_default_color ();
 
   /* Something must be printed to actually reset the terminal to the defaults */
@@ -92,10 +103,7 @@ void knocker_term_reset (void)
   return;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_term_set_color (int fg, int bg, int attrib)
 {
   if (knocker_args.quiet == FALSE)
@@ -146,10 +154,7 @@ void knocker_term_set_color (int fg, int bg, int attrib)
   return;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_term_fflush (FILE * fd)
 {
   if (knocker_args.quiet == FALSE)
@@ -158,10 +163,7 @@ void knocker_term_fflush (FILE * fd)
     }
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_term_printf (const char *buffer)
 {
   if (knocker_args.quiet == FALSE)
@@ -174,10 +176,6 @@ void knocker_term_printf (const char *buffer)
 }
 
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_term_fprintf (FILE * fd, const char *buffer)
 {
   if (knocker_args.quiet == FALSE)
@@ -188,10 +186,7 @@ void knocker_term_fprintf (FILE * fd, const char *buffer)
   return;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_term_color_printf (const char *buffer, int color, int attrib)
 {
   if (knocker_args.quiet == FALSE)
@@ -208,10 +203,7 @@ void knocker_term_color_printf (const char *buffer, int color, int attrib)
   return;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_term_color_fprintf (FILE * fd, const char *buffer, int color, int attrib)
 {
   if (knocker_args.quiet == FALSE)
@@ -228,10 +220,7 @@ void knocker_term_color_fprintf (FILE * fd, const char *buffer, int color, int a
   return;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
+
 void knocker_term_color_intprintf (const int i, int color, int attrib)
 {
   if (knocker_args.quiet == FALSE)
@@ -248,10 +237,6 @@ void knocker_term_color_intprintf (const int i, int color, int attrib)
   return;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_term_color_intfprintf (FILE * fd, const int i, int color, int attrib)
 {
   if (knocker_args.quiet == FALSE)
@@ -268,10 +253,6 @@ void knocker_term_color_intfprintf (FILE * fd, const int i, int color, int attri
   return;
 }
 
-/*
-   ============================================================================
-   ============================================================================
-*/
 void knocker_term_intfprintf (FILE * fd, const int i)
 {
   if (knocker_args.quiet == FALSE)
@@ -285,9 +266,6 @@ void knocker_term_intfprintf (FILE * fd, const int i)
 
   return;
 }
-
-
-
 
 /*
  * function: restore_terminal - restore normal screen mode.
